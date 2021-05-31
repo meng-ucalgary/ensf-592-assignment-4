@@ -1,7 +1,7 @@
 import numpy as np
 
 
-def load():
+def load_data():
     # data copied from the csv file
     list = [
         2013, "Centennial High School", 1224, 591, 572, 558,
@@ -165,44 +165,90 @@ def load():
         2019, "Lester B. Pearson High School", 9865, 535, 528, 553,
         2020, "Lester B. Pearson High School", 9865, 537, 533, 559]
 
-
-    """Creating ndarray and dictionary"""
     # convert the data in a 2d ndarray, as in the csv file
-    all_data = np.array(list).reshape(160, 6)
+    data = np.array(list).reshape(160, 6)
 
-    # create a dictionary from the 2nd and 3rd column of the data, mapping school name with school code
-    all_data_dict = dict(all_data[:, 1:3])
-
-    # change the datatype of values of the dictionary from numpy string to int
-    for k in all_data_dict.keys():
-        all_data_dict[k] = int(all_data_dict[k])
+    # create a dictionary from the 2nd and 3rd column of the data, mapping school code with school name
+    data_dict = create_dict(data[:, -4:-6:-1])
 
     # cast the whole array into int, after deleting the school names
     # school names are now not required as dictionary is already created
-    all_data = np.delete(all_data, 1, 1).astype('int')
+    data = np.delete(data, 1, 1).astype('int')
+
+    # sort the data
+    data = sort_data(data)
+
+    # reshape the 2d all_data ndarray into a 3d one
+    data = data.reshape(8, 20, 5)
+
+    return data, data_dict
 
 
-    """Sorting begins"""
-    # create a temporary array that will be used for sorting the all_data priming
+
+
+def create_dict(arr):
+    """Function to create a dictionary from two columns of the arrays
+
+        Parameters:
+            arr (2d array): the array where column index 0 would become key and column index 1 would become value
+
+        Returns:
+            new_dictionary (dict): the dictionary create based on the parameter array
+    """
+    dictionary = dict(arr)
+
+    # change the datatype of keys of the dictionary from numpy string to int
+    # convert the values of the dictionary to lowercase
+    # save the result dictionary in a new variable
+    new_dictionary = {}
+
+    for k in dictionary.keys():
+        v = dictionary.get(k)
+        new_dictionary[int(k)] = str(v).lower()
+
+    return new_dictionary
+
+
+
+
+def sort_data(data):
+    """Function to sort the 2d array based on values in columns 0 and 1 -
+       which are year and school code in our case.
+
+    """
+    # create a temporary array that will be used for sorting the data. Priming
     # input with string "YYYY CCCCC" because numpy has a weird behavior of treating
-    # empty string arrays of one length. More information is at below link
+    # empty string of one length. More information is at below link
     # https://stackoverflow.com/questions/13717554/weird-behaviour-initializing-a-numpy-array-of-string-data
     sorting_array = np.full((160, 1), "YYYY CCCCC")
 
-    # join the year and school code, to sort the temporary array with year and then school code
+    # join the year and school code, so that when temporary array is sorted, it will
+    # be based on column 0 (year) and then column 1 (school code)
     for i in range(160):
-        sorting_array[i] = str(all_data[i, 0]) + " " + str(all_data[i, 1])
+        sorting_array[i] = str(data[i, 0]) + " " + str(data[i, 1])
 
     # now actually sorting the all_data array
-    all_data = all_data[sorting_array[:, 0].argsort()]
+    return data[sorting_array[:, 0].argsort()]
 
 
-    """Making 3D array"""
-    # reshape the 2d all_data ndarray into a 3d one
-    all_data = all_data.reshape(8, 20, 5)
 
-    return all_data, all_data_dict
+
+def print_dict(d):
+    """Function to print the dictionary parameter in a simple way, along with data type.
+       This function can be used for manual testing
+
+        Parameters:
+            d (dict): the dictionary to be printed
+
+        Returns:
+            None
+    """
+    for k in d.keys():
+        print("{0} (type = {1}): {2} (type = {3})".format(
+            k, type(k), d.get(k), type(d.get(k))))
+
+
 
 
 if __name__ == '__main__':
-    load()
+    load_data()
