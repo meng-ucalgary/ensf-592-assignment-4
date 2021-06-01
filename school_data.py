@@ -76,7 +76,13 @@ def main():
     # Print Stage 3 requirements here
     print("\n***General Statistics for All Schools***\n")
 
+    enrol_data_grade = enrol_data[:, :, 2:5]
 
+    print("Mean enrolment in 2013: {0}".format(np.mean(enrol_data_grade[0, :, :])))
+    print("Mean enrolment in 2020: {0}".format(np.mean(enrol_data_grade[7, :, :])))
+    print("Total graduating class of 2020: {0}".format(np.sum(enrol_data_grade[7, :, 2])))
+    print("Highest enrolment for a single grade: {0}".format(np.max(enrol_data_grade[:, :, :])))
+    print("Lowest enrollment for a single grade: {0}".format(np.min(enrol_data_grade[:, :, :])))
 
 
 
