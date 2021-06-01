@@ -1,8 +1,31 @@
+# data_help.py
+# Bhavyai Gupta
+#
+# This file defines functions that help in
+#   Loading the data
+#   Sorting the data
+#   and Creating a dictionary over the columns of the data
+
+
 import numpy as np
 
 
 def load_data():
-    # data copied from the csv file
+    """
+    Function to load the data from the csv file into a list (by manual copy paste) and then into a numpy array
+
+        Parameters:
+            none
+
+        Returns:
+            data (ndarray):     the data loaded from the csv file, after operations like
+                                removing school names, sorting, and reshaping into 3d
+            data_dict (dict):   the dictionary based on the array data, with school
+                                names mapping into school codes, and school codes mapping
+                                into school names
+    """
+
+    # data copied from the csv file stored in Python list
     list = [
         2013, "Centennial High School", 1224, 591, 572, 558,
         2014, "Centennial High School", 1224, 599, 592, 598,
@@ -184,13 +207,11 @@ def load_data():
     return data, data_dict
 
 
-
-
 def create_dict(arr):
     """Function to create a dictionary from two columns of the arrays
 
         Parameters:
-            arr (2d array): the array where column index 0 would become key and column index 1 would become value
+            arr (2d array): the array where both columns work as both keys and values
 
         Returns:
             new_dictionary (dict): the dictionary create based on the parameter array
@@ -212,12 +233,15 @@ def create_dict(arr):
     return new_dictionary
 
 
-
-
 def sort_data(data):
     """Function to sort the 2d array based on values in columns 0 and 1 -
        which are year and school code in our case.
 
+        Parameters:
+            data (ndarray): 2d array that is to be sorted based on column values at index 0 and 1
+
+        Returns:
+            data (ndarray): sorted array
     """
     # create a temporary array that will be used for sorting the data. Priming
     # input with string "YYYY CCCCC" because numpy has a weird behavior of treating
@@ -234,10 +258,8 @@ def sort_data(data):
     return data[sorting_array[:, 0].argsort()]
 
 
-
-
 def print_dict(d):
-    """Function to print the dictionary parameter in a simple way, along with data type.
+    """Function to print the dictionary in a simple way, along with data type.
        This function can be used for manual testing
 
         Parameters:
@@ -248,10 +270,5 @@ def print_dict(d):
     """
     for k in d.keys():
         # print("{0} : {1}".format(k, d.get(k)))
-        print("{0} (type = {1}): {2} (type = {3})".format(k, type(k), d.get(k), type(d.get(k))))
-
-
-
-
-if __name__ == '__main__':
-    load_data()
+        print("{0} (type = {1}): {2} (type = {3})".format(
+            k, type(k), d.get(k), type(d.get(k))))
