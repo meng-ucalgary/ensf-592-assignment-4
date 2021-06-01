@@ -197,14 +197,17 @@ def create_dict(arr):
     """
     dictionary = dict(arr)
 
-    # change the datatype of keys of the dictionary from numpy string to int
-    # convert the values of the dictionary to lowercase
-    # save the result dictionary in a new variable
+    # create a new dictionary that maps
+    #   user input of school code <str> to school code in <int>
+    #   user input of school name lowercase <str> to school code in <int>
+    #   input of school code <int> to school name <str>. This is to fetch name of school as per records
     new_dictionary = {}
 
     for k in dictionary.keys():
         v = dictionary.get(k)
-        new_dictionary[int(k)] = str(v).lower()
+        new_dictionary[str(k)] = int(k)
+        new_dictionary[str(v).lower()] = int(k)
+        new_dictionary[int(k)] = str(v)
 
     return new_dictionary
 
@@ -244,8 +247,8 @@ def print_dict(d):
             None
     """
     for k in d.keys():
-        print("{0} (type = {1}): {2} (type = {3})".format(
-            k, type(k), d.get(k), type(d.get(k))))
+        # print("{0} : {1}".format(k, d.get(k)))
+        print("{0} (type = {1}): {2} (type = {3})".format(k, type(k), d.get(k), type(d.get(k))))
 
 
 
