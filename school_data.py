@@ -61,6 +61,9 @@ def main():
     enrol_data_school = enrol_data[mask].reshape(8, 1, 5)
 
     # again filter only the data points, ie, grade information, by creating a view
+    # --------------------------------------------------------------------------------------------------
+    # TA: subarray view is CREATED here. enrol_data_school_grade is a subarray view of enrol_data_school
+    # --------------------------------------------------------------------------------------------------
     enrol_data_school_grade = enrol_data_school[:, :, 2:5]
 
     print("Mean enrolment for Grade 10: {0}".format(
