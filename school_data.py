@@ -32,7 +32,7 @@ def main():
     # Prompt for user input
     while(True):
         user_choice = input(
-            "Please enter the high school name or school code: ")
+            "Please enter the high school name or school code: ").lower()
         school_code = enrol_dict.get(user_choice)
 
         try:
